@@ -1,0 +1,26 @@
+<h3>WELCOME</h3>
+<h5> to the </h5><h1>MUSIC WALL</h1>
+<a href="/login">Login Now!</a>
+<br>
+<p>Hello<%= current_user.try(:name)%>!</p>
+<a href="/tracks/new"> Make a New Track</a>
+
+<% @tracks.each do |track| %>
+  <% unless track.nil? %>
+    <h5><%= track.author %> sings the song:<%= track.title %>, get it at:<a href="<%= track.url %>"><%= track.url %></a>
+      <% if track.votes.any? %>
+        <%= track.votes.sum("vote")%>
+      <% end %>
+    <form action='/tracks/<%= track.id %>/votes' method='post'> 
+      <input name='vote' type="hidden" value="1">
+      <input style= "display:inline" type="submit" value="Vote Up">
+    </form> 
+
+    <form action='/tracks/<%= track.id %>/votes' method='post'> 
+      <input name='vote' type="hidden" value="-1">
+      <input style= "display:inline" type="submit" value="Vote Down">
+    </form>
+
+    </h5>
+  <% end %>  
+<% end %>
